@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+body, html {
+padding: 0;
+margin: 0;
+overflow: hidden;
+}
+</style>
+<title>rain</title>
+</head>
+<body>
+<canvas class="canvas"></canvas>
+<script>
+let canvas = document.querySelector(".canvas");
+win = {w:0, h:0};
+canvas.width = win.w = window.innerWidth;
+canvas.height = win.h = window.innerHeight;
+let ctx = canvas.getContext("2d");
+requestAnimationFrame(loop);
+let arrDropX = [], arrDropY = [];
+let dropCount = (win.h+win.w) / 15;
+let size = win.h * 0.005;
+let speed = size * 1.5;
+for (let i = 0; i < dropCount; i++) {
+arrDropX[i] = randomInt(0, win.w);
+arrDropY[i] = randomInt(0, win.h);
+}
+requestAnimationFrame(loop);
+function loop() {
+ctx.clearRect(0,0, win.w, win.h);
+ctx.beginPath();
+ctx.fillStyle = "#011110";
+ctx.fillRect(0,0, win.w, win.h);
+ctx.stroke();
+for (let i = 0; i < dropCount; i++) {
+if ((arrDropY[i] += speed) >= win.h) {
+arrDropX[i] = randomInt(0, win.w);
+arrDropY[i] = -size;
+}
+x = arrDropX[i], y = arrDropY[i];
+ctx.beginPath();
+ctx.strokeStyle = "#ffffff70";
+ctx.lineWidth = size/1.5;
+ctx.moveTo(x, parseInt(y-size*2.5));
+ctx.lineTo(x, parseInt(y-size));
+ctx.stroke();
+ctx.beginPath();
+ctx.strokeStyle = "#ffffff80";
+ctx.lineWidth = size/1.2;
+ctx.moveTo(x, parseInt(y-size));
+ctx.lineTo(x, y);
+ctx.stroke();
+ctx.beginPath();
+ctx.strokeStyle = "#ffffff90";
+ctx.lineWidth = size;
+ctx.moveTo(x, y); ctx.lineTo(x, parseInt(y+size));
+ctx.stroke();
+}
+requestAnimationFrame(loop);
+}
+function randomInt(min, max) {
+return Math.floor(Math.random() * (max + 1 - min) + min);
+}
+console.log(ctx);
+</script>
+</body>
+</html>
